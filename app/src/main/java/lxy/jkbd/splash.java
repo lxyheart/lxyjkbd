@@ -14,7 +14,18 @@ public class splash  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         m.start();
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==1){
+            if(resultCode==RESULT_OK)
+                finish();
+        }
+
+    }
+
     CountDownTimer m = new CountDownTimer(2000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -24,7 +35,7 @@ public class splash  extends AppCompatActivity {
         @Override
         public void onFinish() {
             Intent intent = new Intent(splash.this,MainActivity.class);
-            startActivity(intent);
+           startActivityForResult(intent,1);
         }
     };
 }
