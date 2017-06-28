@@ -1,20 +1,23 @@
 package lxy.jkbd.bean;
 
+import java.util.List;
+
 /**
  * Created by acer on 2017/6/28.
  */
 
 public class Result {
 
+
     /**
      * error_code : 0
      * reason : ok
-     * result : 0
+     * result : []
      */
 
     private int error_code;
     private String reason;
-    private Object result;
+    private List<ExamInfo> result;
 
     public int getError_code() {
         return error_code;
@@ -32,11 +35,11 @@ public class Result {
         this.reason = reason;
     }
 
-    public Object getResult() {
+    public List<ExamInfo> getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(List<ExamInfo> result) {
         this.result = result;
     }
 }
