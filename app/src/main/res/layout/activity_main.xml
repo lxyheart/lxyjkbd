@@ -7,21 +7,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center"
         >
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/main_menu_exam"
             android:text="随机测试"
             android:background="@null"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
             />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/main_menu_result"
             android:text="全部测试"
             android:background="@null"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="25dp"
             />
 
     </LinearLayout>
@@ -29,20 +36,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_weight="1"
         >
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/main_menu_message"
             android:text="设置"
             android:background="@null"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="25dp"
             />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/main_menu_exit"
             android:text="退出"
             android:background="@null"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="25dp"
             />
 
     </LinearLayout>
