@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/main_menu_exam"
             android:text="随机测试"
+            android:onClick="RandomTest"
             android:background="@null"
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
