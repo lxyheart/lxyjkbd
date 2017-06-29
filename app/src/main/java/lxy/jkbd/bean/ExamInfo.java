@@ -1,10 +1,12 @@
 package lxy.jkbd.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by acer on 2017/6/28.
  */
 
-public class ExamInfo {
+public class ExamInfo implements Serializable{
 
     /**
      * subjectTitle : c1
@@ -57,4 +59,5 @@ public class ExamInfo {
                 "考试时间：" + limitTime +"分钟"+'\n'+
                 "考试题目数：" + questionCount;
     }
+
 }

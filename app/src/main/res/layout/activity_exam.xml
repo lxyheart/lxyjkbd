@@ -14,6 +14,7 @@
         android:layout_height="65dp"
         app:srcCompat="@mipmap/exam_title" />
 <TextView
+    android:id="@+id/btnexamtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:text="@string/exam_title"

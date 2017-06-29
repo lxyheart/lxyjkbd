@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import java.io.Serializable;
+
 import lxy.jkbd.R;
 import lxy.jkbd.bean.ExamInfo;
 import lxy.jkbd.utils.OkHttpUtils;
@@ -31,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(ExamInfo result) {
                         Log.e("main","result="+result);
+                        Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
+                        intent.putExtra("ExamInfo", result);
+                        startActivity(intent);
                     }
-
                     @Override
                     public void onError(String error) {
+
                         Log.e("main","error="+error);
                     }
                 });
-
-        Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
-        startActivity(intent);
     }
 
     public void exit(View view) {
