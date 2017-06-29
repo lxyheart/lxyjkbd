@@ -25,12 +25,6 @@
     android:layout_margin="10dp"
     ></View>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/exam_title"
-        android:layout_gravity="center"
-        ></ImageView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +43,12 @@
             android:textColor="#000"
             android:textSize="18sp"/>
     </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/exam_title"
+        android:layout_gravity="center"
+        ></ImageView>
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -156,6 +156,7 @@
             android:background="@null"
             android:text="上一题"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
             />
         <Button
             android:id="@+id/btnnext"
