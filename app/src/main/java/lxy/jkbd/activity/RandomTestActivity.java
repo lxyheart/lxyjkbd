@@ -49,11 +49,10 @@ public class RandomTestActivity extends AppCompatActivity {
         tvop3 = (TextView)findViewById(R.id.tv_item3);
         tvop4 = (TextView)findViewById(R.id.tv_item4);
         imageView = (ImageView)findViewById(R.id.image_title);
-
-
     }
 
     private void initDate() {
+
       ExamInfo examInfo =  ExamApplication.getInstance().getExamInfo();
         if(examInfo != null){
         showDate(examInfo);
