@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 
+import lxy.jkbd.ExamApplication;
 import lxy.jkbd.R;
 import lxy.jkbd.bean.ExamInfo;
 
@@ -17,16 +18,34 @@ import lxy.jkbd.bean.ExamInfo;
  */
 
 public class RandomTestActivity extends AppCompatActivity {
+    TextView tvExamInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+        initView();
+        initDate();
 
-        Intent intent=this.getIntent();
-        ExamInfo examInfo = (ExamInfo) intent.getSerializableExtra("ExamInfo");
-        TextView t = (TextView)findViewById(R.id.btnexamtitle);
-        //Log.e("main",examInfo+"----------------------------");
-        t.setText(examInfo.toString());
+//        Intent intent=this.getIntent();
+//        ExamInfo examInfo = (ExamInfo) intent.getSerializableExtra("ExamInfo");
+//        TextView t = (TextView)findViewById(R.id.btnexamtitle);
+//        //Log.e("main",examInfo+"----------------------------");
+//        t.setText(examInfo.toString());
 
+    }
+
+    private void initView() {
+        tvExamInfo = (TextView)findViewById(R.id.btnexamtitle);
+    }
+
+    private void initDate() {
+      ExamInfo examInfo =  ExamApplication.getInstance().getExamInfo();
+        if(examInfo != null){
+        showDate(examInfo);
+    }
+    }
+
+    private void showDate(ExamInfo examInfo) {
+        tvExamInfo.setText(examInfo.toString());
     }
 }

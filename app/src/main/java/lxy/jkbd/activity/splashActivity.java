@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import lxy.jkbd.R;
 
 
-public class splash  extends AppCompatActivity {
+public class splashActivity extends AppCompatActivity {
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +25,9 @@ public class splash  extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            Intent intent = new Intent(splash.this,MainActivity.class);
+            Intent intent = new Intent(splashActivity.this,MainActivity.class);
            startActivity(intent);
-            splash.this.finish();
+            splashActivity.this.finish();
         }
     };
 }

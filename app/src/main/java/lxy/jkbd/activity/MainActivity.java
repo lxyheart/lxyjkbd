@@ -24,25 +24,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void RandomTest(View view) {
-        OkHttpUtils<ExamInfo> utils = new OkHttpUtils<>(getApplicationContext());
-        String url = "http://101.251.196.90:8080/JztkServer/examInfo";
-        utils.url(url)
-                .targetClass(ExamInfo.class)
-                .execute(new OkHttpUtils.OnCompleteListener<ExamInfo>(){
-
-                    @Override
-                    public void onSuccess(ExamInfo result) {
-                        Log.e("main","result="+result);
-                        Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
-                        intent.putExtra("ExamInfo", result);
-                        startActivity(intent);
-                    }
-                    @Override
-                    public void onError(String error) {
-
-                        Log.e("main","error="+error);
-                    }
-                });
+//        OkHttpUtils<ExamInfo> utils = new OkHttpUtils<>(getApplicationContext());
+//        String url = "http://101.251.196.90:8080/JztkServer/examInfo";
+//        utils.url(url)
+//                .targetClass(ExamInfo.class)
+//                .execute(new OkHttpUtils.OnCompleteListener<ExamInfo>(){
+//
+//                    @Override
+//                    public void onSuccess(ExamInfo result) {
+//                        Log.e("main","result="+result);
+////                        Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
+////                        intent.putExtra("ExamInfo", result);
+////                        startActivity(intent);
+//                    }
+//                    @Override
+//                    public void onError(String error) {
+//
+//                        Log.e("main","error="+error);
+//                    }
+//                });
+        Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
+       // intent.putExtra("ExamInfo", result);
+        startActivity(intent);
     }
 
     public void exit(View view) {
