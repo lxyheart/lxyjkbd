@@ -8,17 +8,19 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lxy.jkbd.ExamApplication;
 import lxy.jkbd.R;
 import lxy.jkbd.bean.ExamInfo;
+import lxy.jkbd.bean.Question;
 
 /**
  * Created by Administrator on 2017/6/29.
  */
 
 public class RandomTestActivity extends AppCompatActivity {
-    TextView tvExamInfo;
+    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,14 @@ public class RandomTestActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
         tvExamInfo = (TextView)findViewById(R.id.btnexamtitle);
+        tvExamTitle = (TextView)findViewById(R.id.tv_exam_title);
+        tvop1 = (TextView)findViewById(R.id.tv_item1);
+        tvop2 = (TextView)findViewById(R.id.tv_item2);
+        tvop3 = (TextView)findViewById(R.id.tv_item3);
+        tvop4 = (TextView)findViewById(R.id.tv_item4);
+
     }
 
     private void initDate() {
@@ -43,6 +52,22 @@ public class RandomTestActivity extends AppCompatActivity {
         if(examInfo != null){
         showDate(examInfo);
     }
+        List<Question> questionList =ExamApplication.getInstance().getQuestionList();
+        if(questionList != null){
+            showExam(questionList);
+        }
+    }
+
+    private void showExam(List<Question> questionList) {
+
+        Question question = questionList.get(0);
+        if(question != null){
+            tvExamTitle.setText(question.getQuestion());
+            tvop1.setText(question.getItem1());
+            tvop2.setText(question.getItem2());
+            tvop3.setText(question.getItem3());
+            tvop4.setText(question.getItem4());
+        }
     }
 
     private void showDate(ExamInfo examInfo) {
