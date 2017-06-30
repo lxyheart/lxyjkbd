@@ -21,36 +21,27 @@ import lxy.jkbd.utils.ResultUtils;
  */
 
 public class ExamApplication extends Application {
+    public static  String LOAD_EXAM_INFO="load_exam_info";
+    public static  String LOAD_EXAM_QUESTION="load_exam_question";
+    public static  String LOAD_EXAM_SUCCESS="load_exam_success";
+    public
     ExamInfo examInfo;
     List<Question> questionList;
     private static ExamApplication instance;
-    IExamBiz biz;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        biz = new ExamBiz();
 
-        initData();
     }
    public static  ExamApplication getInstance(){
         return instance;
 
     }
 
-    private void initData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                biz.beginExam();
-            }
-        }).start();
 
-
-
-
-    }
     public ExamInfo getExamInfo() {
         return examInfo;
     }
