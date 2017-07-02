@@ -23,7 +23,7 @@ import lxy.jkbd.utils.ResultUtils;
 public class ExamApplication extends Application {
     public static  String LOAD_EXAM_INFO="load_exam_info";
     public static  String LOAD_EXAM_QUESTION="load_exam_question";
-    public static  String LOAD_EXAM_SUCCESS="load_exam_success";
+    public static  String LOAD_DATA_SUCCESS="load_exam_success";
     public
     ExamInfo examInfo;
     List<Question> questionList;

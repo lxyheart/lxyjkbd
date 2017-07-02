@@ -34,15 +34,15 @@ public class RandomTestActivity extends AppCompatActivity {
     boolean isLoadExamInfo = false;
     boolean isLoadQuestion = false;
 
-    LoadExamBroadcast mLoadExamBroadcast;
-    LoadQuestionBroadcast mLoadQuestionBroadcast;
+    LoadExamAndQuestionBroadcast mLoadExamAnQuestiondBroadcast;
+   // LoadQuestionBroadcast mLoadQuestionBroadcast;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
-        mLoadExamBroadcast = new LoadExamBroadcast();
+        mLoadExamAnQuestiondBroadcast = new LoadExamAndQuestionBroadcast();
         biz = new ExamBiz();
-        mLoadQuestionBroadcast = new LoadQuestionBroadcast();
+      //  mLoadQuestionBroadcast = new LoadQuestionBroadcast();
         setListener();
         initView();
         loadData();
@@ -56,8 +56,8 @@ public class RandomTestActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        registerReceiver(mLoadExamBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_INFO));
-        registerReceiver(mLoadQuestionBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_QUESTION));
+        registerReceiver(mLoadExamAnQuestiondBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_INFO));
+        registerReceiver(mLoadExamAnQuestiondBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_QUESTION));
 
     }
 
@@ -118,36 +118,41 @@ public class RandomTestActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mLoadExamBroadcast != null){
-            unregisterReceiver(mLoadExamBroadcast);
+        if(mLoadExamAnQuestiondBroadcast != null){
+            unregisterReceiver(mLoadExamAnQuestiondBroadcast);
         }
-        if(mLoadQuestionBroadcast != null){
-            unregisterReceiver(mLoadQuestionBroadcast);
-        }
+//        if(mLoadQuestionBroadcast != null){
+//            unregisterReceiver(mLoadQuestionBroadcast);
+//        }
     }
-    class LoadExamBroadcast extends BroadcastReceiver{
+    class LoadExamAndQuestionBroadcast extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean isSuccess = intent.getBooleanExtra(ExamApplication.LOAD_EXAM_SUCCESS,false);
-            Log.e("LoadExamBroadcast","LoadExamBroadcast,isSuccess="+isSuccess);
-            if(isSuccess) {
+            boolean isExamSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_SUCCESS,false);
+            boolean isQuestionSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_SUCCESS,false);
+            Log.e("LoadExamBroadcast","LoadExamBroadcast,isSuccess="+isExamSuccess);
+            Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isQuestionSuccess);
+            if(isExamSuccess) {
                isLoadExamInfo = true;
             }
-            initData();
-        }
-    }
-
-    class LoadQuestionBroadcast extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            boolean isSuccess = intent.getBooleanExtra(ExamApplication.LOAD_EXAM_SUCCESS,false);
-            Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isSuccess);
-            if(isSuccess) {
+            if(isQuestionSuccess) {
                 isLoadQuestion = true;
             }
             initData();
         }
     }
+
+//    class LoadQuestionBroadcast extends BroadcastReceiver{
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            boolean isSuccess = intent.getBooleanExtra(ExamApplication.LOAD_EXAM_SUCCESS,false);
+//            Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isSuccess);
+//            if(isSuccess) {
+//                isLoadQuestion = true;
+//            }
+//            initData();
+//        }
+//    }
 }
