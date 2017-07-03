@@ -32,7 +32,7 @@ import lxy.jkbd.biz.IExamBiz;
  */
 
 public class RandomTestActivity extends AppCompatActivity {
-    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload;
+    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload,tvnum;
     ImageView imageView;
     LinearLayout layoutload;
     ProgressBar pdialog;
@@ -85,6 +85,7 @@ public class RandomTestActivity extends AppCompatActivity {
 
         tvExamInfo = (TextView)findViewById(R.id.btnexamtitle);
         tvExamTitle = (TextView)findViewById(R.id.tv_exam_title);
+        tvnum =  (TextView)findViewById(R.id.tv_question_no);
         tvop1 = (TextView)findViewById(R.id.tv_item1);
         tvop2 = (TextView)findViewById(R.id.tv_item2);
         tvop3 = (TextView)findViewById(R.id.tv_item3);
@@ -109,30 +110,33 @@ public class RandomTestActivity extends AppCompatActivity {
                 if(examInfo != null){
                     showDate(examInfo);
                 }
-                List<Question> questionList =ExamApplication.getInstance().getQuestionList();
-                if(questionList != null){
-                    showExam(questionList);
-                }
+                showExam( biz.getQuestion());
+            } else {
+                layoutload.setEnabled(true);
+                pdialog.setVisibility(View.GONE);
+                tload.setText("下载失败，点击重新下载");
             }
-        }else {
-            layoutload.setEnabled(true);
-            pdialog.setVisibility(View.GONE);
-            tload.setText("下载失败，点击重新下载");
         }
  }
 
-    private void showExam(List<Question> questionList) {
+    private void showExam(Question question) {
 
-        Question question = questionList.get(0);
         if(question != null){
+            tvnum.setText(biz.getQusetionIndex());
             tvExamTitle.setText(question.getQuestion());
             tvop1.setText(question.getItem1());
             tvop2.setText(question.getItem2());
             tvop3.setText(question.getItem3());
             tvop4.setText(question.getItem4());
-            Picasso.with(RandomTestActivity.this)
-                    .load(question.getUrl())
-                    .into(imageView);
+            if(question.getUrl()!=null && !question.getUrl().equals("")){
+                imageView.setVisibility(View.VISIBLE);
+                Picasso.with(RandomTestActivity.this)
+                        .load(question.getUrl())
+                        .into(imageView);
+            }else {
+                imageView.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -149,6 +153,15 @@ public class RandomTestActivity extends AppCompatActivity {
 //            unregisterReceiver(mLoadQuestionBroadcast);
 //        }
     }
+
+    public void preQuestion(View view) {
+        showExam(biz.preQuestion());
+    }
+
+    public void nextQuestion(View view) {
+        showExam(biz.nextQuestion());
+    }
+
     class LoadExamAndQuestionBroadcast extends BroadcastReceiver{
         boolean isExamSuccess = false;
         boolean isQuestionSuccess = false;
@@ -165,12 +178,13 @@ public class RandomTestActivity extends AppCompatActivity {
             Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isQuestionSuccess);
             if(isExamSuccess ) {
                isLoadExamInfo = true;
+                isLoadExamInfoReceiver = true;
+
             }
             if(isQuestionSuccess) {
                 isLoadQuestion = true;
+                isLoadQuestionReceiver = true;
             }
-            isLoadExamInfoReceiver = true;
-            isLoadQuestionReceiver = true;
             initData();
         }
     }

@@ -55,6 +55,7 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <TextView
+            android:id="@+id/tv_question_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1."
@@ -180,21 +181,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
         <Button
+            android:id="@+id/prequestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/exam_pre32x32"
             android:background="@null"
             android:text="上一题"
+            android:onClick="preQuestion"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             />
         <Button
-            android:id="@+id/btnnext"
+            android:id="@+id/nextquestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/exam_next32x32"
             android:background="@null"
             android:text="下一题"
+            android:onClick="nextQuestion"
             android:layout_alignParentRight="true"
             />
         <Button
@@ -203,7 +207,8 @@
             android:drawableLeft="@mipmap/exam_commit32x32"
             android:background="@null"
             android:text="交卷"
-            android:layout_below="@id/btnnext"
+            android:layout_below="@id/nextquestion"
+            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
