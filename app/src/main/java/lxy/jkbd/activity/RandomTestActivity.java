@@ -158,11 +158,11 @@ public class RandomTestActivity extends AppCompatActivity {
                     showDate(examInfo);
                 }
                 showExam( biz.getQuestion());
+            }else {
+                layoutload.setEnabled(true);
+                pdialog.setVisibility(View.GONE);
+                tload.setText("下载失败，点击重新下载");
             }
-        }else {
-            layoutload.setEnabled(true);
-            pdialog.setVisibility(View.GONE);
-            tload.setText("下载失败，点击重新下载");
         }
  }
 
@@ -219,25 +219,26 @@ public class RandomTestActivity extends AppCompatActivity {
         boolean isQuestionSuccess = false;
         @Override
         public void onReceive(Context context, Intent intent) {
-           // if(isExamSuccess!=true){
+            if(isExamSuccess!=true){
                 isExamSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_EXAM_SUCCESS,false);
-           // }
-           // if(isQuestionSuccess!=true){
+            }
+            if(isQuestionSuccess!=true){
                 isQuestionSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_Question_SUCCES,false);
-         //   }
+           }
             Log.e("LoadExamAndQuestion","LoadExamAndQuestionBroadcast,isSuccess="+isExamSuccess);
             Log.e("LoadExamAndQuestiont","LoadExamAndQuestionBroadcast,isSuccess="+isQuestionSuccess);
-
-            if(isExamSuccess || isQuestionSuccess) {
-                isLoadExamInfo = true;
+            if(intent.getAction().equals(ExamApplication.LOAD_EXAM_INFO)) {
                 isLoadExamInfoReceiver = true;
-                isLoadQuestion = true;
+            }
+            if(intent.getAction().equals(ExamApplication.LOAD_EXAM_QUESTION)) {
                 isLoadQuestionReceiver = true;
             }
-//            if(isQuestionSuccess) {
-//                isLoadQuestion = true;
-//                isLoadQuestionReceiver = true;
-//            }
+            if(isExamSuccess) {
+                isLoadExamInfo = true;
+            }
+            if(isQuestionSuccess) {
+                isLoadQuestion = true;
+            }
             initData();
         }
     }
