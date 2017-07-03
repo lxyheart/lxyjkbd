@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,9 +36,11 @@ import lxy.jkbd.biz.IExamBiz;
 public class RandomTestActivity extends AppCompatActivity {
     TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload,tvnum;
     ImageView imageView;
-    LinearLayout layoutload;
+    CheckBox cb01,cb02,cb03,cb04;
+    LinearLayout layoutload,layout03,layout04;
     ProgressBar pdialog;
     IExamBiz biz;
+    CheckBox cbs[] = new CheckBox[4];
     boolean isLoadExamInfo = false;
     boolean isLoadQuestion = false;
 
@@ -91,7 +95,17 @@ public class RandomTestActivity extends AppCompatActivity {
         tvop3 = (TextView)findViewById(R.id.tv_item3);
         tvop4 = (TextView)findViewById(R.id.tv_item4);
         tload = (TextView) findViewById(R.id.tv_load);
+        cb01 = (CheckBox) findViewById(R.id.cb_01);
+        cb02 = (CheckBox) findViewById(R.id.cb_02);
+        cb03 = (CheckBox) findViewById(R.id.cb_03);
+        cb04 = (CheckBox) findViewById(R.id.cb_04);
+        cbs[0] = cb01;
+        cbs[1] = cb02;
+        cbs[2] = cb03;
+        cbs[3] = cb04;
         layoutload = (LinearLayout) findViewById(R.id.l_load);
+        layout03 = (LinearLayout) findViewById(R.id.layout_03);
+        layout04 = (LinearLayout) findViewById(R.id.layout_04);
         pdialog = (ProgressBar) findViewById(R.id.load_dialog);
         imageView = (ImageView)findViewById(R.id.image_title);
         layoutload.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +114,40 @@ public class RandomTestActivity extends AppCompatActivity {
                loadData();
             }
         });
+        cb01.setOnCheckedChangeListener(listener);
+        cb02.setOnCheckedChangeListener(listener);
+        cb03.setOnCheckedChangeListener(listener);
+        cb04.setOnCheckedChangeListener(listener);
     }
+    CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked){
+                int userAnswer = 0;
+                switch (buttonView.getId()){
+                    case R.id.cb_01:
+                        userAnswer = 1;
+                        break;
+                    case R.id.cb_02:
+                        userAnswer  = 2;
+                        break;
+                    case R.id.cb_03:
+                        userAnswer  = 3;
+                        break;
+                    case R.id.cb_04:
+                        userAnswer  = 4;
+                        break;
+                }
+                if(userAnswer>0) {
+                    for (CheckBox cb : cbs) {
+                        cb.setChecked(false);
+                    }
+                    cbs[userAnswer-1].setChecked(true);
+                }
+            }
+            }
+
+    } ;
 
     private void initData() {
         if(isLoadQuestionReceiver && isLoadExamInfoReceiver) {
@@ -111,11 +158,11 @@ public class RandomTestActivity extends AppCompatActivity {
                     showDate(examInfo);
                 }
                 showExam( biz.getQuestion());
-            } else {
-                layoutload.setEnabled(true);
-                pdialog.setVisibility(View.GONE);
-                tload.setText("下载失败，点击重新下载");
             }
+        }else {
+            layoutload.setEnabled(true);
+            pdialog.setVisibility(View.GONE);
+            tload.setText("下载失败，点击重新下载");
         }
  }
 
@@ -128,6 +175,10 @@ public class RandomTestActivity extends AppCompatActivity {
             tvop2.setText(question.getItem2());
             tvop3.setText(question.getItem3());
             tvop4.setText(question.getItem4());
+            cb04.setVisibility(question.getItem4().equals("")?View.GONE:View.VISIBLE);
+            layout04.setVisibility(question.getItem4().equals("")?View.GONE:View.VISIBLE);
+            layout03.setVisibility(question.getItem3().equals("")?View.GONE:View.VISIBLE);
+            cb03.setVisibility(question.getItem3().equals("")?View.GONE:View.VISIBLE);
             if(question.getUrl()!=null && !question.getUrl().equals("")){
                 imageView.setVisibility(View.VISIBLE);
                 Picasso.with(RandomTestActivity.this)
@@ -160,6 +211,7 @@ public class RandomTestActivity extends AppCompatActivity {
 
     public void nextQuestion(View view) {
         showExam(biz.nextQuestion());
+
     }
 
     class LoadExamAndQuestionBroadcast extends BroadcastReceiver{
@@ -167,24 +219,25 @@ public class RandomTestActivity extends AppCompatActivity {
         boolean isQuestionSuccess = false;
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(isExamSuccess!=true){
+           // if(isExamSuccess!=true){
                 isExamSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_EXAM_SUCCESS,false);
-            }
-            if(isQuestionSuccess!=true){
+           // }
+           // if(isQuestionSuccess!=true){
                 isQuestionSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_Question_SUCCES,false);
-            }
+         //   }
+            Log.e("LoadExamAndQuestion","LoadExamAndQuestionBroadcast,isSuccess="+isExamSuccess);
+            Log.e("LoadExamAndQuestiont","LoadExamAndQuestionBroadcast,isSuccess="+isQuestionSuccess);
 
-            Log.e("LoadExamBroadcast","LoadExamBroadcast,isSuccess="+isExamSuccess);
-            Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isQuestionSuccess);
-            if(isExamSuccess ) {
-               isLoadExamInfo = true;
+            if(isExamSuccess || isQuestionSuccess) {
+                isLoadExamInfo = true;
                 isLoadExamInfoReceiver = true;
-
-            }
-            if(isQuestionSuccess) {
                 isLoadQuestion = true;
                 isLoadQuestionReceiver = true;
             }
+//            if(isQuestionSuccess) {
+//                isLoadQuestion = true;
+//                isLoadQuestionReceiver = true;
+//            }
             initData();
         }
     }
