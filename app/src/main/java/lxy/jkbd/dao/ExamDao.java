@@ -33,7 +33,7 @@ public class ExamDao implements IExamDao {
                         ExamApplication.getInstance().setExamInfo(result);
                         ExamApplication.getInstance()
                                 .sendBroadcast(new Intent(ExamApplication.LOAD_EXAM_INFO)
-                                 .putExtra(ExamApplication.LOAD_EXAM_SUCCESS,true));
+                                 .putExtra(ExamApplication.LOAD_DATA_EXAM_SUCCESS,true));
 
                     }
                     @Override
@@ -42,7 +42,7 @@ public class ExamDao implements IExamDao {
                         Log.e("main","error="+error);
                         ExamApplication.getInstance()
                                 .sendBroadcast(new Intent(ExamApplication.LOAD_EXAM_INFO)
-                                        .putExtra(ExamApplication.LOAD_EXAM_SUCCESS,false));
+                                        .putExtra(ExamApplication.LOAD_DATA_EXAM_SUCCESS,false));
                     }
                 });
     }
@@ -68,7 +68,7 @@ public class ExamDao implements IExamDao {
                         }
                         ExamApplication.getInstance()
                                 .sendBroadcast(new Intent(ExamApplication.LOAD_EXAM_QUESTION)
-                                        .putExtra(ExamApplication.LOAD_EXAM_SUCCESS,success));
+                                        .putExtra(ExamApplication.LOAD_DATA_Question_SUCCES,success));
                     }
 
                     @Override
@@ -76,7 +76,7 @@ public class ExamDao implements IExamDao {
                         Log.e("main","error="+error);
                         ExamApplication.getInstance()
                                 .sendBroadcast(new Intent(ExamApplication.LOAD_EXAM_QUESTION)
-                                .putExtra(ExamApplication.LOAD_EXAM_SUCCESS,false));
+                                .putExtra(ExamApplication.LOAD_DATA_Question_SUCCES,false));
                     }
                 });
     }

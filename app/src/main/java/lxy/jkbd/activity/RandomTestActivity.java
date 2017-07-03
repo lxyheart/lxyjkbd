@@ -7,8 +7,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -28,14 +32,18 @@ import lxy.jkbd.biz.IExamBiz;
  */
 
 public class RandomTestActivity extends AppCompatActivity {
-    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4;
+    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload;
     ImageView imageView;
+    LinearLayout layoutload;
+    ProgressBar pdialog;
     IExamBiz biz;
     boolean isLoadExamInfo = false;
     boolean isLoadQuestion = false;
 
+    boolean isLoadExamInfoReceiver = false;
+    boolean isLoadQuestionReceiver = false;
+
     LoadExamAndQuestionBroadcast mLoadExamAnQuestiondBroadcast;
-   // LoadQuestionBroadcast mLoadQuestionBroadcast;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +64,15 @@ public class RandomTestActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        registerReceiver(mLoadExamAnQuestiondBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_INFO));
-        registerReceiver(mLoadExamAnQuestiondBroadcast,new IntentFilter(ExamApplication.LOAD_EXAM_QUESTION));
-
+        IntentFilter filter= new IntentFilter(ExamApplication.LOAD_EXAM_QUESTION);
+        filter.addAction(ExamApplication.LOAD_EXAM_INFO);
+        registerReceiver(mLoadExamAnQuestiondBroadcast,filter);
     }
 
     private void loadData() {
+        pdialog.setVisibility(View.VISIBLE);
+        layoutload.setEnabled(false);
+        tload.setText("下载数据...");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -78,21 +89,36 @@ public class RandomTestActivity extends AppCompatActivity {
         tvop2 = (TextView)findViewById(R.id.tv_item2);
         tvop3 = (TextView)findViewById(R.id.tv_item3);
         tvop4 = (TextView)findViewById(R.id.tv_item4);
+        tload = (TextView) findViewById(R.id.tv_load);
+        layoutload = (LinearLayout) findViewById(R.id.l_load);
+        pdialog = (ProgressBar) findViewById(R.id.load_dialog);
         imageView = (ImageView)findViewById(R.id.image_title);
+        layoutload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               loadData();
+            }
+        });
     }
 
     private void initData() {
-    if(isLoadExamInfo&&isLoadQuestion){
-        ExamInfo examInfo =  ExamApplication.getInstance().getExamInfo();
-        if(examInfo != null){
-            showDate(examInfo);
+        if(isLoadQuestionReceiver && isLoadExamInfoReceiver) {
+            if(isLoadExamInfo && isLoadQuestion){
+                layoutload.setVisibility(View.GONE);
+                ExamInfo examInfo =  ExamApplication.getInstance().getExamInfo();
+                if(examInfo != null){
+                    showDate(examInfo);
+                }
+                List<Question> questionList =ExamApplication.getInstance().getQuestionList();
+                if(questionList != null){
+                    showExam(questionList);
+                }
+            }
+        }else {
+            layoutload.setEnabled(true);
+            pdialog.setVisibility(View.GONE);
+            tload.setText("下载失败，点击重新下载");
         }
-        List<Question> questionList =ExamApplication.getInstance().getQuestionList();
-        if(questionList != null){
-            showExam(questionList);
-        }
-
-    }
  }
 
     private void showExam(List<Question> questionList) {
@@ -107,8 +133,6 @@ public class RandomTestActivity extends AppCompatActivity {
             Picasso.with(RandomTestActivity.this)
                     .load(question.getUrl())
                     .into(imageView);
-
-
         }
     }
 
@@ -126,19 +150,27 @@ public class RandomTestActivity extends AppCompatActivity {
 //        }
     }
     class LoadExamAndQuestionBroadcast extends BroadcastReceiver{
-
+        boolean isExamSuccess = false;
+        boolean isQuestionSuccess = false;
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean isExamSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_SUCCESS,false);
-            boolean isQuestionSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_SUCCESS,false);
+            if(isExamSuccess!=true){
+                isExamSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_EXAM_SUCCESS,false);
+            }
+            if(isQuestionSuccess!=true){
+                isQuestionSuccess = intent.getBooleanExtra(ExamApplication.LOAD_DATA_Question_SUCCES,false);
+            }
+
             Log.e("LoadExamBroadcast","LoadExamBroadcast,isSuccess="+isExamSuccess);
             Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isQuestionSuccess);
-            if(isExamSuccess) {
+            if(isExamSuccess ) {
                isLoadExamInfo = true;
             }
             if(isQuestionSuccess) {
                 isLoadQuestion = true;
             }
+            isLoadExamInfoReceiver = true;
+            isLoadQuestionReceiver = true;
             initData();
         }
     }
