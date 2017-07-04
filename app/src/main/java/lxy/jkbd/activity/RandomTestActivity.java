@@ -187,7 +187,13 @@ public class RandomTestActivity extends AppCompatActivity {
             }else {
                 imageView.setVisibility(View.GONE);
             }
+            restCheckBox();
+        }
+    }
 
+    private void restCheckBox() {
+        for(CheckBox cb:cbs) {
+            cb.setChecked(false);
         }
     }
 
