@@ -39,7 +39,7 @@ public class ExamBiz implements IExamBiz {
 
     @Override
     public Question preQuestion() {
-        if (questionList != null&&questionIndex<questionList.size()-1) {
+        if (questionList != null&&questionIndex>0) {
             questionIndex--;
             return questionList.get(questionIndex);
         }else {
@@ -48,9 +48,17 @@ public class ExamBiz implements IExamBiz {
     }
 
     @Override
-    public void commitExam() {
-
+    public int commitExam() {
+        int s = 0;
+        for (Question question : questionList) {
+            String userAnswer = question.getUserAnswer();
+            if (question.getAnswer().equals(userAnswer)) {
+                s++;
+            }
+        }
+        return  s;
     }
+
 
     @Override
     public Question getQuestion() {

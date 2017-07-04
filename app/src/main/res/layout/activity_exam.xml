@@ -213,6 +213,7 @@
             android:drawableLeft="@mipmap/exam_commit32x32"
             android:background="@null"
             android:text="交卷"
+            android:onClick="commitQuestion"
             android:layout_below="@id/nextquestion"
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"

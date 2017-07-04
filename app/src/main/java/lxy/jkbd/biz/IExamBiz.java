@@ -10,7 +10,7 @@ public interface IExamBiz {
     void beginExam();
     Question nextQuestion();
     Question preQuestion();
-    void  commitExam();
+    int  commitExam();
     Question getQuestion();
     String getQusetionIndex();
 }
