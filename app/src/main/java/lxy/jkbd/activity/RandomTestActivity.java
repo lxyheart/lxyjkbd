@@ -188,6 +188,11 @@ public class RandomTestActivity extends AppCompatActivity {
                 imageView.setVisibility(View.GONE);
             }
             restCheckBox();
+            String userAnswer = question.getUserAnswer();
+            if (userAnswer != null && !userAnswer.equals("")) {
+                int cbIndex = Integer.parseInt(userAnswer)-1;
+                cbs[cbIndex].setChecked(true);
+            }
         }
     }
 
@@ -196,7 +201,16 @@ public class RandomTestActivity extends AppCompatActivity {
             cb.setChecked(false);
         }
     }
+    private void saveUserAnswer() {
+        for (int i = 0; i < cbs.length ; i++) {
+            if (cbs[i].isChecked()) {
+                biz.getQuestion().setUserAnswer(String.valueOf(i+1));
+                return;
 
+            }
+
+        }
+    }
     private void showDate(ExamInfo examInfo) {
         tvExamInfo.setText(examInfo.toString());
     }
@@ -212,10 +226,12 @@ public class RandomTestActivity extends AppCompatActivity {
     }
 
     public void preQuestion(View view) {
+        saveUserAnswer();
         showExam(biz.preQuestion());
     }
 
     public void nextQuestion(View view) {
+        saveUserAnswer();
         showExam(biz.nextQuestion());
 
     }
