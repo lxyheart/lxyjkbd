@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ import lxy.jkbd.bean.ExamInfo;
 import lxy.jkbd.bean.Question;
 import lxy.jkbd.biz.ExamBiz;
 import lxy.jkbd.biz.IExamBiz;
+import lxy.jkbd.view.QuestionAdapter;
 
 /**
  * Created by Administrator on 2017/6/29.
@@ -44,7 +46,9 @@ public class RandomTestActivity extends AppCompatActivity {
     CheckBox cb01,cb02,cb03,cb04;
     LinearLayout layoutload,layout03,layout04;
     ProgressBar pdialog;
+    Gallery mgallery;
     IExamBiz biz;
+    QuestionAdapter mAdapter;
     CheckBox cbs[] = new CheckBox[4];
     boolean isLoadExamInfo = false;
     boolean isLoadQuestion = false;
@@ -101,6 +105,7 @@ public class RandomTestActivity extends AppCompatActivity {
         tvop4 = (TextView)findViewById(R.id.tv_item4);
         tload = (TextView) findViewById(R.id.tv_load);
         tvTime = (TextView) findViewById(R.id.tv_time);
+        mgallery = (Gallery) findViewById(R.id.gallery);
         cb01 = (CheckBox) findViewById(R.id.cb_01);
         cb02 = (CheckBox) findViewById(R.id.cb_02);
         cb03 = (CheckBox) findViewById(R.id.cb_03);
@@ -162,9 +167,10 @@ public class RandomTestActivity extends AppCompatActivity {
                 ExamInfo examInfo =  ExamApplication.getInstance().getExamInfo();
                 if(examInfo != null){
                     showDate(examInfo);
+                    initTime(examInfo);
                 }
                 showExam( biz.getQuestion());
-                initTime(examInfo);
+                initGallery();
             }else {
                 layoutload.setEnabled(true);
                 pdialog.setVisibility(View.GONE);
@@ -172,6 +178,12 @@ public class RandomTestActivity extends AppCompatActivity {
             }
         }
  }
+
+    private void initGallery() {
+        mAdapter = new QuestionAdapter(this) ;
+        mgallery.setAdapter(mAdapter);
+
+    }
 
     private void initTime(ExamInfo examInfo) {
         long sumTime = 120*1000;
