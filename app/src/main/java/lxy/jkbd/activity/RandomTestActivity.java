@@ -18,11 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lxy.jkbd.ExamApplication;
 import lxy.jkbd.R;
@@ -36,7 +39,7 @@ import lxy.jkbd.biz.IExamBiz;
  */
 
 public class RandomTestActivity extends AppCompatActivity {
-    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload,tvnum;
+    TextView tvExamInfo,tvExamTitle,tvop1,tvop2,tvop3,tvop4,tload,tvnum,tvTime;
     ImageView imageView;
     CheckBox cb01,cb02,cb03,cb04;
     LinearLayout layoutload,layout03,layout04;
@@ -97,6 +100,7 @@ public class RandomTestActivity extends AppCompatActivity {
         tvop3 = (TextView)findViewById(R.id.tv_item3);
         tvop4 = (TextView)findViewById(R.id.tv_item4);
         tload = (TextView) findViewById(R.id.tv_load);
+        tvTime = (TextView) findViewById(R.id.tv_time);
         cb01 = (CheckBox) findViewById(R.id.cb_01);
         cb02 = (CheckBox) findViewById(R.id.cb_02);
         cb03 = (CheckBox) findViewById(R.id.cb_03);
@@ -160,6 +164,7 @@ public class RandomTestActivity extends AppCompatActivity {
                     showDate(examInfo);
                 }
                 showExam( biz.getQuestion());
+                initTime(examInfo);
             }else {
                 layoutload.setEnabled(true);
                 pdialog.setVisibility(View.GONE);
@@ -167,6 +172,42 @@ public class RandomTestActivity extends AppCompatActivity {
             }
         }
  }
+
+    private void initTime(ExamInfo examInfo) {
+        long sumTime = 120*1000;
+        final long overTime = System.currentTimeMillis()+sumTime;
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                long l = overTime-System.currentTimeMillis();
+                final long min = l/1000/60;
+                final long sec = l/1000%60;
+                Log.e("time","min:"+min+",sec"+sec);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(min == 1 && sec == 0){
+                            Toast.makeText(RandomTestActivity.this,"考试时间还剩一分钟请考生抓紧答题",Toast.LENGTH_LONG).show();
+                        }
+                        tvTime.setText("剩余时间为:"+min+"分"+sec+"秒");
+                    }
+                });
+            }
+        },0,1000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timer.cancel();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        commitQuestion(null);
+                    }
+                });
+            }
+        },sumTime);
+    }
 
     private void showExam(Question question) {
 

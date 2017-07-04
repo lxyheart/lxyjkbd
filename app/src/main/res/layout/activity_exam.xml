@@ -48,7 +48,15 @@
     android:background="#990099"
     android:layout_margin="10dp"
     ></View>
-
+<TextView
+    android:id="@+id/tv_time"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="剩余时间:8分8秒"
+    android:textColor="#000"
+    android:textSize="18sp"
+    android:gravity="center_horizontal"
+    />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
