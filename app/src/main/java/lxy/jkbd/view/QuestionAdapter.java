@@ -42,9 +42,14 @@ public class QuestionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      View view =  View.inflate(mContext, R.layout.question_item,null);
-       TextView tvNum = (TextView) view.findViewById(R.id.tv_num);
+        View view =  View.inflate(mContext, R.layout.question_item,null);
+        TextView tvNum = (TextView) view.findViewById(R.id.tv_num);
         ImageView ivQuestion = (ImageView) view.findViewById(R.id.iv_question);
+        if(questionList.get(position).getUserAnswer() != null && !questionList.get(position).getUserAnswer().equals("")) {
+            ivQuestion.setImageResource(R.mipmap.answer24x24);
+        }else {
+            ivQuestion.setImageResource(R.mipmap.ques24x24);
+        }
         tvNum.setText("第"+(position+1)+"题");
         return view;
     }

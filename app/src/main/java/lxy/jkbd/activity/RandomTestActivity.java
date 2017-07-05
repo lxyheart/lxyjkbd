@@ -178,7 +178,7 @@ public class RandomTestActivity extends AppCompatActivity {
                 tload.setText("下载失败，点击重新下载");
             }
         }
- }
+    }
 
     private void initGallery() {
         mAdapter = new QuestionAdapter(this) ;
@@ -186,7 +186,7 @@ public class RandomTestActivity extends AppCompatActivity {
         mgallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("gallery","postion"+position);
+                Log.e("gallery","position="+position);
                 saveUserAnswer();
                 showExam(biz.getQuestion(position));
 
@@ -270,11 +270,12 @@ public class RandomTestActivity extends AppCompatActivity {
         for (int i = 0; i < cbs.length ; i++) {
             if (cbs[i].isChecked()) {
                 biz.getQuestion().setUserAnswer(String.valueOf(i+1));
+                mAdapter.notifyDataSetChanged();
                 return;
-
             }
-
         }
+        biz.getQuestion().setUserAnswer("");
+        mAdapter.notifyDataSetChanged();
     }
     private void showDate(ExamInfo examInfo) {
         tvExamInfo.setText(examInfo.toString());
