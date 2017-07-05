@@ -12,5 +12,6 @@ public interface IExamBiz {
     Question preQuestion();
     int  commitExam();
     Question getQuestion();
+    Question getQuestion(int index);
     String getQusetionIndex();
 }

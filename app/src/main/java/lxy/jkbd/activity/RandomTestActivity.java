@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Gallery;
@@ -182,6 +183,15 @@ public class RandomTestActivity extends AppCompatActivity {
     private void initGallery() {
         mAdapter = new QuestionAdapter(this) ;
         mgallery.setAdapter(mAdapter);
+        mgallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("gallery","postion"+position);
+                saveUserAnswer();
+                showExam(biz.getQuestion(position));
+
+            }
+        });
 
     }
 
