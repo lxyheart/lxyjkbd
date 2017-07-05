@@ -51,6 +51,7 @@ public class RandomTestActivity extends AppCompatActivity {
     IExamBiz biz;
     QuestionAdapter mAdapter;
     CheckBox cbs[] = new CheckBox[4];
+    TextView tv[] =new TextView[4];
     boolean isLoadExamInfo = false;
     boolean isLoadQuestion = false;
 
@@ -115,6 +116,10 @@ public class RandomTestActivity extends AppCompatActivity {
         cbs[1] = cb02;
         cbs[2] = cb03;
         cbs[3] = cb04;
+        tv[0] = tvop1;
+        tv[1] = tvop2;
+        tv[2] = tvop3;
+        tv[3] = tvop4;
         layoutload = (LinearLayout) findViewById(R.id.l_load);
         layout03 = (LinearLayout) findViewById(R.id.layout_03);
         layout04 = (LinearLayout) findViewById(R.id.layout_04);
@@ -258,8 +263,34 @@ public class RandomTestActivity extends AppCompatActivity {
                 int cbIndex = Integer.parseInt(userAnswer)-1;
                 cbs[cbIndex].setChecked(true);
                 setOption(false);
+                setAnswerTextColor(userAnswer,question.getAnswer());
             }else {
                 setOption(true);
+                setOptionsColor();
+            }
+        }
+    }
+
+    private void setOptionsColor() {
+        for (TextView tvOp:tv) {
+            tvOp.setTextColor(getResources().getColor(R.color.black));
+        }
+    }
+
+    private void setAnswerTextColor(String userAnswer, String answer) {
+        int ra = Integer.parseInt(answer)-1;
+        for (int i = 0; i < tv.length ; i++) {
+            if(i == ra){
+                tv[i].setTextColor(getResources().getColor(R.color.green));
+            }else {
+                if(!userAnswer.equals(answer)){
+                    int ua = Integer.parseInt(userAnswer)-1;
+                    if(i == ua){
+                        tv[i].setTextColor(getResources().getColor(R.color.red));
+                    }else {
+                        tv[i].setTextColor(getResources().getColor(R.color.black));
+                    }
+                }
             }
         }
     }
