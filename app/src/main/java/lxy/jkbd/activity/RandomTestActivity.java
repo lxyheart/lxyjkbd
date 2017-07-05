@@ -257,7 +257,16 @@ public class RandomTestActivity extends AppCompatActivity {
             if (userAnswer != null && !userAnswer.equals("")) {
                 int cbIndex = Integer.parseInt(userAnswer)-1;
                 cbs[cbIndex].setChecked(true);
+                setOption(false);
+            }else {
+                setOption(true);
             }
+        }
+    }
+
+    private void setOption(boolean a) {
+        for (int i = 0; i < cbs.length; i++) {
+            cbs[i].setEnabled(a);
         }
     }
 
