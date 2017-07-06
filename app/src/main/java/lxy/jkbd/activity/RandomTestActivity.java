@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Gallery;
@@ -53,25 +52,48 @@ public class RandomTestActivity extends AppCompatActivity {
     boolean isLoadQuestionReceiver = false;
 
     LoadExamAndQuestionBroadcast mLoadExamAnQuestiondBroadcast;
-    @BindView(R.id.load_dialog) ProgressBar pdialog;
-    @BindView(R.id.tv_load) TextView tload;
-    @BindView(R.id.l_load) LinearLayout layoutload;
-    @BindView(R.id.btnexamtitle) TextView tvExamInfo;
-    @BindView(R.id.tv_time) TextView tvTime;
-    @BindView(R.id.tv_question_no) TextView tvnum;
-    @BindView(R.id.tv_exam_title) TextView tvExamTitle;
-    @BindView(R.id.image_title) ImageView imageView;
-    @BindView(R.id.tv_item1) TextView tvop1;
-    @BindView(R.id.tv_item2) TextView tvop2;
-    @BindView(R.id.tv_item3) TextView tvop3;
-    @BindView(R.id.layout_03) LinearLayout layout03;
-    @BindView(R.id.tv_item4) TextView tvop4;
-    @BindView(R.id.layout_04) LinearLayout layout04;
-    @BindView(R.id.cb_01) CheckBox cb01;
-    @BindView(R.id.cb_02) CheckBox cb02;
-    @BindView(R.id.cb_03) CheckBox cb03;
-    @BindView(R.id.cb_04) CheckBox cb04;
-    @BindView(R.id.gallery) Gallery mgallery;
+    @BindView(R.id.load_dialog)
+    ProgressBar pdialog;
+    @BindView(R.id.tv_load)
+    TextView tload;
+    @BindView(R.id.l_load)
+    LinearLayout layoutload;
+    @BindView(R.id.btnexamtitle)
+    TextView tvExamInfo;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_question_no)
+    TextView tvnum;
+    @BindView(R.id.tv_exam_title)
+    TextView tvExamTitle;
+    @BindView(R.id.image_title)
+    ImageView imageView;
+    @BindView(R.id.tv_item1)
+    TextView tvop1;
+    @BindView(R.id.tv_item2)
+    TextView tvop2;
+    @BindView(R.id.tv_item3)
+    TextView tvop3;
+    @BindView(R.id.layout_03)
+    LinearLayout layout03;
+    @BindView(R.id.tv_item4)
+    TextView tvop4;
+    @BindView(R.id.layout_04)
+    LinearLayout layout04;
+    @BindView(R.id.cb_01)
+    CheckBox cb01;
+    @BindView(R.id.cb_02)
+    CheckBox cb02;
+    @BindView(R.id.cb_03)
+    CheckBox cb03;
+    @BindView(R.id.cb_04)
+    CheckBox cb04;
+    @BindView(R.id.gallery)
+    Gallery mgallery;
+    @BindView(R.id.explain)
+    TextView explain;
+    @BindView(R.id.tv_answer)
+    TextView tvAnswer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -325,6 +347,7 @@ public class RandomTestActivity extends AppCompatActivity {
     public void preQuestion(View view) {
         saveUserAnswer();
         showExam(biz.preQuestion());
+
     }
 
     public void nextQuestion(View view) {
@@ -343,6 +366,7 @@ public class RandomTestActivity extends AppCompatActivity {
         builder.setIcon(R.mipmap.exam_commit32x32)
                 .setTitle("交卷")
                 .setView(inflate)
+                .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
