@@ -19,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RandomTestActivity">
-
+        <activity android:name=".activity.RandomTestActivity"
+         android:screenOrientation="portrait">
         </activity>
+
     </application>
 
 </manifest>
