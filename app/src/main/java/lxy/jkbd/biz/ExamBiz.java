@@ -29,8 +29,10 @@ public class ExamBiz implements IExamBiz {
 
     @Override
     public Question nextQuestion() {
-        if (questionList != null&&questionIndex<questionList.size()-1) {
-            questionIndex++;
+        if (questionList != null) {
+            if(questionIndex<questionList.size()-1){
+                questionIndex++;
+            }
             return questionList.get(questionIndex);
         }else {
             return null;
@@ -39,8 +41,10 @@ public class ExamBiz implements IExamBiz {
 
     @Override
     public Question preQuestion() {
-        if (questionList != null&&questionIndex>0) {
-            questionIndex--;
+        if (questionList != null) {
+            if (questionIndex>0){
+                questionIndex--;
+            }
             return questionList.get(questionIndex);
         }else {
             return null;

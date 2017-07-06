@@ -94,6 +94,8 @@ public class RandomTestActivity extends AppCompatActivity {
     TextView explain;
     @BindView(R.id.tv_answer)
     TextView tvAnswer;
+    @BindView(R.id.useranswer)
+    TextView useranswer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -274,9 +276,48 @@ public class RandomTestActivity extends AppCompatActivity {
                 cbs[cbIndex].setChecked(true);
                 setOption(false);
                 setAnswerTextColor(userAnswer, question.getAnswer());
+                if (!userAnswer.equals(question.getAnswer())) {
+                    Log.e("answer","userAnswer="+userAnswer);
+                    switch (userAnswer){
+                        case "1":
+                            useranswer.setText("你的答案为:A");
+                            break;
+                        case "2":
+                            useranswer.setText("你的答案为:B");
+                            break;
+                        case "3":
+                            useranswer.setText("你的答案为:C");
+                            break;
+                        case "4":
+                            useranswer.setText("你的答案为:D");
+                            break;
+                    }
+                    switch (question.getAnswer()) {
+                        case "1":
+                            tvAnswer.setText("正确答案为:A");
+                            break;
+                        case "2":
+                            tvAnswer.setText("正确答案为:B");
+                            break;
+                        case "3":
+                            tvAnswer.setText("正确答案为:C");
+                            break;
+                        case "4":
+                            tvAnswer.setText("正确答案为:D");
+                            break;
+                    }
+                    explain.setText("解析为:" + question.getExplains());
+                }else {
+                    useranswer.setText("");
+                    tvAnswer.setText("");
+                    explain.setText("");
+                }
             } else {
                 setOption(true);
                 setOptionsColor();
+                useranswer.setText("");
+                tvAnswer.setText("");
+                explain.setText("");
             }
         }
     }
@@ -322,7 +363,7 @@ public class RandomTestActivity extends AppCompatActivity {
             if (cbs[i].isChecked()) {
                 biz.getQuestion().setUserAnswer(String.valueOf(i + 1));
                 mAdapter.notifyDataSetChanged();
-                setOption(false);
+                //setOption(false);
                 return;
             }
         }
@@ -356,6 +397,7 @@ public class RandomTestActivity extends AppCompatActivity {
         showExam(biz.nextQuestion());
 
     }
+
     public void commitQuestion(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("交卷")
@@ -366,9 +408,10 @@ public class RandomTestActivity extends AppCompatActivity {
                         commitQuestion();
                     }
                 })
-                .setNegativeButton("取消",null);
+                .setNegativeButton("取消", null);
         builder.create().show();
     }
+
     public void commitQuestion() {
         saveUserAnswer();
         int s = biz.commitExam();
@@ -418,17 +461,4 @@ public class RandomTestActivity extends AppCompatActivity {
             initData();
         }
     }
-
-//    class LoadQuestionBroadcast extends BroadcastReceiver{
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            boolean isSuccess = intent.getBooleanExtra(ExamApplication.LOAD_EXAM_SUCCESS,false);
-//            Log.e("LoadQuestionBroadcast","LoadQuestionBroadcast,isSuccess="+isSuccess);
-//            if(isSuccess) {
-//                isLoadQuestion = true;
-//            }
-//            initData();
-//        }
-//    }
 }
